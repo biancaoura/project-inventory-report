@@ -1,14 +1,13 @@
-import csv
 from inventory_report.reports.simple_report import SimpleReport
 from inventory_report.reports.complete_report import CompleteReport
+from inventory_report.importer.csv_importer import CSVImporter
 
 
 class Inventory:
     @staticmethod
-    def import_data(path_to_csv: str, report_type: str):
-        with open(path_to_csv, "r") as file:
-            reader = csv.DictReader(file, delimiter=",", quotechar='"')
-            data = list(reader)
+    def import_data(path: str, report_type: str):
+        if path.endswith(".csv"):
+            data = CSVImporter.import_data(path)
 
         if report_type.lower() == "simples":
             return SimpleReport.generate(data)
